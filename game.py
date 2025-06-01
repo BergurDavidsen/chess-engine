@@ -1,6 +1,7 @@
 from bulletchess import WHITE, Board, Move
 from base_engine import BaseEngine
 from typing import Tuple, List
+from pathlib import Path
 
 
 class Game:
@@ -14,10 +15,16 @@ class Game:
             engine = engine_white if board.turn == WHITE else engine_black
             move = engine.select_move(board)
             board.apply(move)
+            
+            if board.turn == WHITE:
+                engine.get_html_board(board)
+            
+            
             move_history.append(move)
 
             is_terminal, _ = engine_white.terminal(board)  # or engine_black.terminal(board)
             if is_terminal:
+                engine_white.get_html_board(board)
                 break
 
         return board, move_history

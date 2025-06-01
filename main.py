@@ -7,10 +7,9 @@ from random_bot import RandomBot
 
 config = EngineConfig(max_depth=4)
 minimax_bot = ChessEngine(WHITE, config)
-
 random_bot = RandomBot(BLACK)
-board, move_history = Game.play_match(minimax_bot, random_bot, Board())
-print(board.fen())
-Game.export_pgn(move_history)
 
-    
+# Run the live match
+board, move_history = Game.play_match(minimax_bot, random_bot, Board())
+Game.export_pgn(move_history)
+print(board.fen())
