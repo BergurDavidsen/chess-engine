@@ -21,7 +21,7 @@ class Game:
             
             
             move_history.append(move)
-
+            print(board.fullmove_number)
             is_terminal, _ = engine_white.terminal(board)  # or engine_black.terminal(board)
             if is_terminal:
                 engine_white.get_html_board(board)

@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from bulletchess import Board
+from bulletchess import Board, utils
 
 
 class BaseEngine(ABC):
@@ -14,6 +14,7 @@ class BaseEngine(ABC):
 
     def get_html_board(self, board: Board, filename: str = "board"):
         move_number = board.fullmove_number
+        evaluation = utils.evaluate(board)
         html = f"""
         <!DOCTYPE html>
         <html>
@@ -24,6 +25,7 @@ class BaseEngine(ABC):
         <body>
             <div id="move-number" style="font-family: sans-serif; font-size: 20px; margin: 10px;">
                 Move: {move_number}
+                Eval: {evaluation}
             </div>
             {board._repr_html_()}
 
