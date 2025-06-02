@@ -6,9 +6,9 @@ from game import Game
 from random_bot import RandomBot
 from stockfish_bot import StockfishBot
 
-config = EngineConfig(max_depth=7)
+config = EngineConfig(max_depth=6)
 bot1 = ChessEngine(WHITE, config)
-bot2 = StockfishBot(BLACK)
+bot2 = StockfishBot(BLACK, 0)
 
 board_start = Board()
 

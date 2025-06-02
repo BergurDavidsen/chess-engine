@@ -127,11 +127,11 @@ class ChessEngine(BaseEngine):
 
         score += utils.evaluate(board)
         # score += self.material_score(board)
-        # score += self.center_control(board)
-        # score += self.mobility_score(board)
-        # score += self.king_safety(board)
-        # score += self.threat_score(board)
-        #score += self.positional_score(board)
+        score += self.center_control(board)
+        score += self.mobility_score(board)
+        score += self.king_safety(board)
+        score += self.threat_score(board)
+        score += self.positional_score(board)
         return score
 
     def minimax(self, board: Board, depth: int, alpha: float, beta: float):
@@ -187,7 +187,7 @@ class ChessEngine(BaseEngine):
         for move in self.order_moves(board):
             board_copy = board.copy()
             board_copy.apply(move)
-            score = self.pvs(board_copy, 1, -math.inf, math.inf, board.turn == self.max_player)
+            score = self.minimax(board_copy, 1, -math.inf, math.inf)
             if score > best_score:
                 best_score = score
                 best_move = move
@@ -307,7 +307,7 @@ class ChessEngine(BaseEngine):
                 captured_piece = board[move.destination]
                 if captured_piece:
                     value = self.material_value(str(captured_piece))
-                    score += value * 0.3
+                    score += value * 0.7
 
         return score
 
@@ -348,10 +348,13 @@ class ChessEngine(BaseEngine):
             entry = self.transposition_table[key]
             if entry["depth"] >= self.config.max_depth - depth:
                 return entry["score"]
-
+        
+        
         is_terminal, _ = self.terminal(board)
-        if is_terminal or depth == self.config.max_depth:
+        if is_terminal or depth==self.config.max_depth:
             return self.evaluate(board)
+        
+
 
         legal_moves = self.order_moves(board)
         if not legal_moves:
